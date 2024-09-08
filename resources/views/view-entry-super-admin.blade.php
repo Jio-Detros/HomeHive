@@ -44,7 +44,7 @@
                     <!-- Approach -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 id="card-h6" class="m-0 font-weight-bold">Entry Details - Test</h6>
+                            <h6 id="card-h6" class="m-0 font-weight-bold">Entry Details</h6>
                         </div>
 
                         <div class="card-body">
