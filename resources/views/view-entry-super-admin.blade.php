@@ -44,7 +44,7 @@
                     <!-- Approach -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 id="card-h6" class="m-0 font-weight-bold">Entry Details</h6>
+                            <h6 id="card-h6" class="m-0 font-weight-bold">Entry Details - Test</h6>
                         </div>
 
                         <div class="card-body">
@@ -54,7 +54,7 @@
                                     <table id="tb" class="table table-bordered" width="100%" cellspacing="0">
                                         <tr>
                                             <td id="tb-v-head">Column 1</td>
-                                            <td>Lorem Ipsum</td>
+                                            <td>Lorem Ipsum - 1</td>
                                         </tr>
 
                                         <tr>
