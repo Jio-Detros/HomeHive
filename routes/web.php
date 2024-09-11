@@ -39,6 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('profile-details');
     })->name('profile.details');
 
+    Route::patch('/profile-update-password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
+    Route::patch('/profile/remove-picture', [ProfileController::class, 'removePicture'])->name('profile.remove.picture');
+
+
     Route::get('/profile-edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile-delete', [ProfileController::class, 'destroy'])->name('profile.destroy');

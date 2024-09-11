@@ -36,6 +36,7 @@ class ProfileUpdateRequest extends FormRequest
             'block_no' => ['required', 'integer'],
             'lot_no' => ['required', 'integer'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            
         ];
     }
 

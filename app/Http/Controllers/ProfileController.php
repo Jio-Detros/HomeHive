@@ -7,8 +7,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage; // <-- Add this line
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Validation\Rules\Password; // This is correctly placed here, outside the class
 
 class ProfileController extends Controller
 {
@@ -27,6 +29,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        //dd($request->all());  // Check the form data here
+ 
         $user = $request->user();
 
         // Update profile fields
@@ -41,6 +45,18 @@ class ProfileController extends Controller
         $user->house_blk_no = $request->input('block_no');
         $user->house_lot_no = $request->input('lot_no');
 
+         // Handle image upload
+        if ($request->hasFile('profile_picture')) {
+            // Delete the old profile picture if it exists
+            if ($user->profile_picture) {
+                Storage::delete('public/' . $user->profile_picture);
+            }
+
+            // Store the new profile picture
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->profile_picture = $path; // Save the path in the database
+        }
+
         // Check if password needs to be updated
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
@@ -54,7 +70,7 @@ class ProfileController extends Controller
         // Save changes
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'Profile updated successfully.');
     }
 
     /**
@@ -77,4 +93,38 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update the user's password.
+     */
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'new_password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = $request->user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'Password updated successfully.');
+    }
+
+    /*public function removePicture(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // Remove the current profile picture if it exists
+        if ($user->profile_picture && Storage::exists('public/' . $user->profile_picture)) {
+            Storage::delete('public/' . $user->profile_picture);
+        }
+
+        // Set profile_picture to null or a default value
+        $user->profile_picture = null; // or a default image path if needed
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'Profile picture removed successfully.');
+    }*/
+
 }

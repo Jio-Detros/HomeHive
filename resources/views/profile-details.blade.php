@@ -113,9 +113,12 @@
                                         <tr>
                                             <td id="tb-v-head">Profile Picture</td>
                                             <td>
-                                                <img class="img-circle profile-avatar" src="{{ url('img/pfp_1.png') }}">
+                                                <img class="img-circle profile-avatar" 
+                                                    src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('img/default.png') }}" 
+                                                    style="border-radius: 50%; width: 232px; height: 232px; object-fit: cover;">
                                             </td>
                                         </tr>
+
                                     </table><hr>
                             </div>
                             
